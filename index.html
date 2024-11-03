@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Short Form</title>
+    <!DOCTYPE html>
+    <html lang="ko">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Centered Full Page Scroll</title>
+        <style>
+            * {
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
+            }
+
+            html,
+            body {
+                height: 100%;
+                overflow: hidden;
+                font-family: Arial, sans-serif;
+            }
+
+            .section {
+                width: 100vw;
+                height: 100vh;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+
+                color: #fff;
+                position: absolute;
+                top: 0;
+                left: 0;
+                transition: transform 0.7s ease;
+            }
+
+            .short-form {
+                width: 320px;
+                height: 568px;
+                background: #000;
+                color: #fff;
+                position: relative;
+                overflow: hidden;
+                border-radius: 20px;
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+            }
+
+            .video {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+            }
+
+            .caption {
+                position: absolute;
+                bottom: 20px;
+                left: 20px;
+                font-size: 1.2em;
+                max-width: 280px;
+                line-height: 1.4;
+            }
+
+            .buttons {
+                position: absolute;
+                right: 20px;
+                bottom: 120px;
+                display: flex;
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .button {
+                width: 40px;
+                height: 40px;
+                background: rgba(255, 255, 255, 0.7);
+                border-radius: 50%;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                cursor: pointer;
+                transition: background 0.3s;
+            }
+
+            .button:hover {
+                background: rgba(255, 255, 255, 1);
+            }
+
+            .icon {
+                font-size: 1.2em;
+                color: #333;
+            }
+            .sidebar {
+            width: 200px;
+            background-color: #333;
+            color: #fff;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding-top: 20px;
+            height: 100vh;
+        }
+
+        /* 로고 스타일 */
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 30px;
+        }
+
+        /* 메뉴 스타일 */
+        .menu {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            width: 100%;
+        }
+
+        .menu li {
+            width: 100%;
+        }
+
+        .menu li a {
+            display: block;
+            padding: 15px;
+            text-decoration: none;
+            color: #fff;
+            text-align: center;
+            transition: background-color 0.3s;
+        }
+
+        .menu li a:hover {
+            background-color: #555;
+        }
+
+        /* 드롭다운 메뉴 스타일 */
+        .submenu {
+            overflow: hidden;
+            height: 0;
+            transition: height 0.3s ease;
+            background-color: #444;
+        }
+
+        .submenu li a {
+            padding: 10px;
+            text-align: left;
+            display: block;
+            color: #fff;
+            text-decoration: none;
+        }
+
+        .submenu li a:hover {
+            background-color: #666;
+        }
+
+        /* 마우스를 올렸을 때 하위 메뉴 표시 */
+        .menu li:hover .submenu {
+            height: auto;
+        }
+
+        /* 본문 스타일 */
+        .content {
+            flex-grow: 1;
+            padding: 20px;
+        }
+          /* 작은 화면에서는 햄버거 메뉴 표시 */
+          @media (max-width: 800px) {
+            .hamburger {
+                display: block;
+            }
+
+            /* 사이드바를 숨기고 햄버거로 대체 */
+            .sidebar {
+                transform: translateX(-100%);
+                position: fixed;
+                height: 100vh;
+                z-index: 999;
+            }
+
+            .sidebar.open {
+                transform: translateX(0);
+            }
+        }
+                /* 햄버거 버튼 스타일 */
+                .hamburger {
+            display: none;
+            font-size: 30px;
+            color: #333;
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            cursor: pointer;
+            z-index: 1000;
+        }
+            /* 기본적으로 메뉴 숨김 */
+            .sidebar.hidden {
+            transform: translateX(-100%);
+        }
+        </style>
+    </head>
+<body>
+    <div class="hamburger" onclick="toggleMenu()">☰</div>
+    <div class="sidebar">
+        <!-- 로고 영역 -->
+        <div class="logo">My Logo</div>
+        
+        <!-- 메뉴 영역 -->
+        <ul class="menu">
+            <li><a href="#">Home</a></li>
+            <li><a href="#">About</a></li>
+            <li>
+                <a href="#">Services</a>
+                <!-- 드롭다운 하위 메뉴 -->
+                <ul class="submenu">
+                    <li><a href="#">Web Development</a></li>
+                    <li><a href="#">App Development</a></li>
+                    <li><a href="#">SEO</a></li>
+                </ul>
+            </li>
+            <li><a href="#">Contact</a></li>
+        </ul>
+    </div>
+
+    
+    <div class="section section1">
+        <div class="short-form">
+            <!-- 비디오 부분 -->
+            <video class="video" autoplay loop muted>
+                <source src="video.mp4" type="video/mp4">
+                <!-- 비디오 파일 경로에 실제 비디오 파일을 추가하세요 -->
+            </video>
+
+            <!-- 캡션 부분 -->
+            <div class="caption">
+                짧고 간결한 영상 설명을 여기에 입력하세요. #해시태그
+            </div>
+
+            <!-- 버튼 부분 -->
+            <div class="buttons">
+                <div class="button">
+                    <span class="icon">👍</span>
+                </div>
+                <div class="button">
+                    <span class="icon">💬</span>
+                </div>
+                <div class="button">
+                    <span class="icon">📤</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="section section2">
+        <div class="short-form">
+            <!-- 비디오 부분 -->
+            <video class="video" autoplay loop muted>
+                <source src="video.mp4" type="video/mp4">
+                <!-- 비디오 파일 경로에 실제 비디오 파일을 추가하세요 -->
+            </video>
+
+            <!-- 캡션 부분 -->
+            <div class="caption">
+                짧고 간결한 영상 설명을 여기에 입력하세요. #해시태그
+            </div>
+
+            <!-- 버튼 부분 -->
+            <div class="buttons">
+                <div class="button">
+                    <span class="icon">👍</span>
+                </div>
+                <div class="button">
+                    <span class="icon">💬</span>
+                </div>
+                <div class="button">
+                    <span class="icon">📤</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="section section3">
+        <div class="short-form">
+            <!-- 비디오 부분 -->
+            <video class="video" autoplay loop muted>
+                <source src="video.mp4" type="video/mp4">
+                <!-- 비디오 파일 경로에 실제 비디오 파일을 추가하세요 -->
+            </video>
+
+            <!-- 캡션 부분 -->
+            <div class="caption">
+                짧고 간결한 영상 설명을 여기에 입력하세요. #해시태그
+            </div>
+
+            <!-- 버튼 부분 -->
+            <div class="buttons">
+                <div class="button">
+                    <span class="icon">👍</span>
+                </div>
+                <div class="button">
+                    <span class="icon">💬</span>
+                </div>
+                <div class="button">
+                    <span class="icon">📤</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="section section4">
+        <div class="short-form">
+            <!-- 비디오 부분 -->
+            <video class="video" autoplay loop muted>
+                <source src="video.mp4" type="video/mp4">
+                <!-- 비디오 파일 경로에 실제 비디오 파일을 추가하세요 -->
+            </video>
+
+            <!-- 캡션 부분 -->
+            <div class="caption">
+                짧고 간결한 영상 설명을 여기에 입력하세요. #해시태그
+            </div>
+
+            <!-- 버튼 부분 -->
+            <div class="buttons">
+                <div class="button">
+                    <span class="icon">👍</span>
+                </div>
+                <div class="button">
+                    <span class="icon">💬</span>
+                </div>
+                <div class="button">
+                    <span class="icon">📤</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function toggleMenu() {
+            const sidebar = document.getElementById("sidebar");
+            sidebar.classList.toggle("hidden");
+            sidebar.classList.toggle("open");
+        }
+        let currentSection = 0;
+        const sections = document.querySelectorAll('.section');
+
+        // 초기 섹션 위치 설정
+        updateSectionPositions();
+
+        // 스크롤할 때마다 섹션 이동
+        window.addEventListener('wheel', (event) => {
+            // 스크롤 방향에 따라 현재 섹션 업데이트
+            if (event.deltaY > 0) {
+                // 아래로 스크롤
+                if (currentSection < sections.length - 1) {
+                    currentSection++;
+                }
+            } else {
+                // 위로 스크롤
+                if (currentSection > 0) {
+                    currentSection--;
+                }
+            }
+            updateSectionPositions();
+        });
+
+        // 섹션 위치를 업데이트하는 함수
+        function updateSectionPositions() {
+            sections.forEach((section, index) => {
+                if (index === currentSection) {
+                    // 현재 섹션을 화면 중앙에 고정
+                    section.style.transform = `translateY(0)`;
+                } else if (index < currentSection) {
+                    // 이전 섹션은 화면 위로 이동
+                    section.style.transform = `translateY(-100vh)`;
+                } else {
+                    // 다음 섹션은 화면 아래로 이동
+                    section.style.transform = `translateY(100vh)`;
+                }
+            });
+        }
+    </script>
+</body>
+
+</html>
+
+</body>
+
+</html>
