@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>short</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html,
+        body {
+            height: 100%;
+            overflow: hidden;
+            font-family: Arial, sans-serif;
+        }
+
+        .section {
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            color: #fff;
+            position: absolute;
+            top: 0;
+            left: 0;
+            transition: transform 0.7s ease;
+        }
+
+        .short-form {
+            width: 320px;
+            height: 568px;
+            background: #000;
+            color: #fff;
+            position: relative;
+            overflow: hidden;
+            border-radius: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+        }
+
+        .video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .caption {
+            position: absolute;
+            bottom: 20px;
+            left: 20px;
+            font-size: 1.2em;
+            max-width: 280px;
+            line-height: 1.4;
+        }
+
+        .buttons {
+            position: absolute;
+            right: 20px;
+            bottom: 120px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .button {
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.7);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .button:hover {
+            background: rgba(255, 255, 255, 1);
+        }
+
+        .icon {
+            font-size: 1.2em;
+            color: #333;
+        }
+
+          /* 사이드바 스타일 */
+          .sidebar {
+            width: 200px;
+            background-color: #333;
+            color: #fff;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding-top: 20px;
+            height: 100vh;
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 1000; /* 사이드바를 앞으로 튀어나오게 설정 */
+            transition: transform 0.3s ease;
+        }
+
+        /* 로고 스타일 */
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 30px;
+        }
+
+        /* 메뉴 스타일 */
+        .menu {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            width: 100%;
+        }
+
+        .menu li {
+            width: 100%;
+            
+        }
+
+        .menu li a {
+            display: block;
+            padding: 15px;
+            text-decoration: none;
+            color: #fff;
+            text-align: center;
+            transition: background-color 0.3s;
+            text-decoration: underline;
+            
+        }
+
+        .menu li a:hover {
+            background-color: #555;
+        }
+
+        .menu img{
+            width: 20px;
+            filter: invert(96%) sepia(55%) saturate(0%) hue-rotate(327deg) brightness(108%) contrast(100%);
+            
+        }
+
+        /* 햄버거 버튼 스타일 */
+        .hamburger {
+            display: none;
+            font-size: 30px;
+            color: #333;
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            cursor: pointer;
+            z-index: 1100; /* 햄버거 버튼도 앞으로 튀어나오게 설정 */
+        }
+
+        /* 작은 화면에서는 햄버거 메뉴 표시 */
+        @media (max-width: 600px) {
+            .hamburger {
+                display: block;
+            }
+
+            /* 사이드바 숨기기 및 햄버거로 대체 */
+            .sidebar {
+                transform: translateX(-100%);
+                position: fixed;
+                height: 100vh;
+                z-index: 1000;
+            }
+
+            .sidebar.open {
+                transform: translateX(0);
+            }
+        }
+
+        /* 본문 스타일 */
+        .content {
+            flex-grow: 1;
+            padding: 20px;
+            margin-left: 200px;
+            transition: margin-left 0.3s ease;
+        }
+
+        @media (max-width: 600px) {
+            .content {
+                margin-left: 0;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="hamburger" onclick="toggleMenu()">☰</div>
+
+    <!-- 사이드바 시작 -->
+    <div class="sidebar hidden" id="sidebar">
+        <!-- 로고 영역 -->
+        <div class="logo">s7h58_</div>
+        
+        <!-- 메뉴 영역 -->
+        <ul class="menu">
+            <li><a href="#"><img src="imges/7781587.png" alt=""></a></li>
+            <li><a href="#"><img src="imges/6749012.png" alt=""></a></li>
+            <li><a href="#"><img src="imges/1153377.png" alt=""></a></li>
+        </ul>
+    </div>
+    <div class="section section1">
+        <div class="short-form">
+            <!-- 비디오 부분 -->
+            <video class="video" autoplay loop muted>
+                <source src="https://www.instagram.com/reel/C6D8HQmP_w6/?utm_source=ig_web_copy_link.mp4"
+                    type="video/mp4">
+                <!-- 비디오 파일 경로에 실제 비디오 파일을 추가하세요 -->
+            </video>
+
+            <!-- 캡션 부분 -->
+            <div class="caption">
+                짧고 간결한 영상 설명을 여기에 입력하세요. #해시태그
+            </div>
+
+            <!-- 버튼 부분 -->
+            <div class="buttons">
+                <div class="button">
+                    <span class="icon">👍</span>
+                </div>
+                <div class="button">
+                    <span class="icon">💬</span>
+                </div>
+                <div class="button">
+                    <span class="icon">📤</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="section section2">
+        <div class="short-form">
+            <!-- 비디오 부분 -->
+            <video class="video" autoplay loop muted>
+                <source src="video.mp4" type="video/mp4">
+                <!-- 비디오 파일 경로에 실제 비디오 파일을 추가하세요 -->
+            </video>
+
+            <!-- 캡션 부분 -->
+            <div class="caption">
+                짧고 간결한 영상 설명을 여기에 입력하세요. #해시태그
+            </div>
+
+            <!-- 버튼 부분 -->
+            <div class="buttons">
+                <div class="button">
+                    <span class="icon">👍</span>
+                </div>
+                <div class="button">
+                    <span class="icon">💬</span>
+                </div>
+                <div class="button">
+                    <span class="icon">📤</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="section section3">
+        <div class="short-form">
+            <!-- 비디오 부분 -->
+            <video class="video" autoplay loop muted>
+                <source src="video.mp4" type="video/mp4">
+                <!-- 비디오 파일 경로에 실제 비디오 파일을 추가하세요 -->
+            </video>
+
+            <!-- 캡션 부분 -->
+            <div class="caption">
+                짧고 간결한 영상 설명을 여기에 입력하세요. #해시태그
+            </div>
+
+            <!-- 버튼 부분 -->
+            <div class="buttons">
+                <div class="button">
+                    <span class="icon">👍</span>
+                </div>
+                <div class="button">
+                    <span class="icon">💬</span>
+                </div>
+                <div class="button">
+                    <span class="icon">📤</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="section section4">
+        <div class="short-form">
+            <!-- 비디오 부분 -->
+            <video class="video" autoplay loop muted>
+                <source src="video.mp4" type="video/mp4">
+                <!-- 비디오 파일 경로에 실제 비디오 파일을 추가하세요 -->
+            </video>
+
+            <!-- 캡션 부분 -->
+            <div class="caption">
+                짧고 간결한 영상 설명을 여기에 입력하세요. #해시태그
+            </div>
+
+            <!-- 버튼 부분 -->
+            <div class="buttons">
+                <div class="button">
+                    <span class="icon">👍</span>
+                </div>
+                <div class="button">
+                    <span class="icon">💬</span>
+                </div>
+                <div class="button">
+                    <span class="icon">📤</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        let currentSection = 0;
+        const sections = document.querySelectorAll('.section');
+        let isScrolling = false; // Scroll lock to prevent rapid scrolling
+
+        // 초기 섹션 위치 설정
+        updateSectionPositions();
+
+        // 마우스 휠, 키보드, 터치 제스처 이벤트 추가
+        window.addEventListener('wheel', handleScroll);
+        window.addEventListener('keydown', handleKey);
+        window.addEventListener('touchstart', handleTouchStart);
+        window.addEventListener('touchend', handleTouchEnd);
+
+        // 터치 시작/끝 위치 저장
+        let touchStartY = 0;
+
+        // 마우스 휠 핸들러
+        function handleScroll(event) {
+            if (isScrolling) return; // 이미 스크롤 중이면 무시
+            if (event.deltaY > 0) {
+                scrollToNextSection();
+            } else {
+                scrollToPreviousSection();
+            }
+        }
+
+        // 키보드 핸들러
+        function handleKey(event) {
+            if (isScrolling) return; // 이미 스크롤 중이면 무시
+            if (event.key === 'ArrowDown') {
+                scrollToNextSection();
+            } else if (event.key === 'ArrowUp') {
+                scrollToPreviousSection();
+            }
+        }
+
+        // 터치 시작 핸들러
+        function handleTouchStart(event) {
+            touchStartY = event.touches[0].clientY;
+        }
+
+        // 터치 끝 핸들러
+        function handleTouchEnd(event) {
+            const touchEndY = event.changedTouches[0].clientY;
+            if (isScrolling) return; // 이미 스크롤 중이면 무시
+            if (touchStartY > touchEndY + 50) { // 아래로 스와이프
+                scrollToNextSection();
+            } else if (touchStartY < touchEndY - 50) { // 위로 스와이프
+                scrollToPreviousSection();
+            }
+        }
+
+        // 다음 섹션으로 이동
+        function scrollToNextSection() {
+            if (currentSection < sections.length - 1) {
+                currentSection++;
+                updateSectionPositions();
+            }
+        }
+
+        // 이전 섹션으로 이동
+        function scrollToPreviousSection() {
+            if (currentSection > 0) {
+                currentSection--;
+                updateSectionPositions();
+            }
+        }
+
+        // 섹션 위치 업데이트 함수
+        function updateSectionPositions() {
+            isScrolling = true; // 스크롤 잠금
+            sections.forEach((section, index) => {
+                if (index === currentSection) {
+                    section.style.transform = `translateY(0)`;
+                } else if (index < currentSection) {
+                    section.style.transform = `translateY(-100vh)`;
+                } else {
+                    section.style.transform = `translateY(100vh)`;
+                }
+            });
+            setTimeout(() => isScrolling = false, 700); // 애니메이션 후 스크롤 잠금 해제
+        }
+        // 햄버거 메뉴 클릭 시 사이드바 토글
+        function toggleMenu() {
+            const sidebar = document.getElementById("sidebar");
+            sidebar.classList.toggle("hidden");
+            sidebar.classList.toggle("open");
+        }
+        
+    </script>
+</body>
+
+</html>
