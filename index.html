@@ -89,8 +89,8 @@
             color: #333;
         }
 
-          /* 사이드바 스타일 */
-          .sidebar {
+        /* 사이드바 스타일 */
+        .sidebar {
             width: 200px;
             background-color: #333;
             color: #fff;
@@ -102,7 +102,8 @@
             position: fixed;
             top: 0;
             left: 0;
-            z-index: 1000; /* 사이드바를 앞으로 튀어나오게 설정 */
+            z-index: 1000;
+            /* 사이드바를 앞으로 튀어나오게 설정 */
             transition: transform 0.3s ease;
         }
 
@@ -123,7 +124,7 @@
 
         .menu li {
             width: 100%;
-            
+
         }
 
         .menu li a {
@@ -134,17 +135,17 @@
             text-align: center;
             transition: background-color 0.3s;
             text-decoration: underline;
-            
+
         }
 
         .menu li a:hover {
             background-color: #555;
         }
 
-        .menu img{
+        .menu img {
             width: 20px;
             filter: invert(96%) sepia(55%) saturate(0%) hue-rotate(327deg) brightness(108%) contrast(100%);
-            
+
         }
 
         /* 햄버거 버튼 스타일 */
@@ -156,7 +157,8 @@
             top: 20px;
             left: 20px;
             cursor: pointer;
-            z-index: 1100; /* 햄버거 버튼도 앞으로 튀어나오게 설정 */
+            z-index: 1100;
+            /* 햄버거 버튼도 앞으로 튀어나오게 설정 */
         }
 
         /* 작은 화면에서는 햄버거 메뉴 표시 */
@@ -191,6 +193,74 @@
                 margin-left: 0;
             }
         }
+
+        /* .container {
+            width: 80%;
+            max-width: 1200px;
+            text-align: center;
+        } */
+        .button-container {
+            margin-bottom: 20px;
+        }
+
+        .button-container button {
+            padding: 10px 20px;
+            background-color: #333;
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+            border-radius: 5px;
+            padding-top: 14px;
+            margin-left: 69px;
+            
+        }
+        .media-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            justify-content: center;
+        }
+
+        .media-box {
+            position: absolute; /* 절대 위치로 이동 가능하게 설정 */
+            cursor: grab; /* 드래그 가능 시 커서 변경 */
+            width: 300px;
+            background-color: black;
+            border-radius: 10px;
+            overflow: hidden;
+            
+        }
+
+        img,
+        video {
+            width: 100%;
+            height: auto;
+        }
+
+        .remove-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background-color: red;
+            color: white;
+            padding: 5px 10px;
+            border: none;
+            cursor: pointer;
+            border-radius: 50%;
+        }
+
+        .edit-btn {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background-color: blue;
+            color: white;
+            padding: 5px 10px;
+            border: none;
+            cursor: pointer;
+            border-radius: 50%;
+        }
     </style>
 </head>
 
@@ -201,14 +271,26 @@
     <div class="sidebar hidden" id="sidebar">
         <!-- 로고 영역 -->
         <div class="logo">s7h58_</div>
-        
+
         <!-- 메뉴 영역 -->
         <ul class="menu">
             <li><a href="#"><img src="imges/7781587.png" alt=""></a></li>
             <li><a href="#"><img src="imges/6749012.png" alt=""></a></li>
             <li><a href="#"><img src="imges/1153377.png" alt=""></a></li>
+
+            <li class="button-container">
+                <button id="addMediaBtn">
+                    <img src="imges/5715715.png" alt="">
+                </button>
+            </li>
         </ul>
+        <div class="media-container" id="mediaContainer">
+            <!-- 추가된 영상/사진들이 이곳에 표시됩니다 -->
+        </div>
+        <input type="file" id="mediaFileInput" style="display: none;" accept="image/*,video/*" />
+      
     </div>
+   
     <div class="section section1">
         <div class="short-form">
             <!-- 비디오 부분 -->
@@ -219,6 +301,7 @@
             </video>
 
             <!-- 캡션 부분 -->
+             
             <div class="caption">
                 짧고 간결한 영상 설명을 여기에 입력하세요. #해시태그
             </div>
@@ -318,7 +401,7 @@
             </div>
         </div>
     </div>
-    
+
     <script>
         let currentSection = 0;
         const sections = document.querySelectorAll('.section');
@@ -408,7 +491,146 @@
             sidebar.classList.toggle("hidden");
             sidebar.classList.toggle("open");
         }
-        
+        ////////////////////
+        let isDragging = false;  // 드래그 상태 여부
+        let offsetX, offsetY;  // 드래그할 때의 좌표 오프셋
+
+        // 플러스형 버튼 클릭 시 파일 업로드 트리거
+        document.getElementById('addMediaBtn').addEventListener('click', function() {
+            document.getElementById('mediaFileInput').click();
+        });
+
+        // 파일 선택 시 미디어 추가
+        document.getElementById('mediaFileInput').addEventListener('change', function(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const fileURL = URL.createObjectURL(file);
+                if (file.type.startsWith('image/')) {
+                    addImageToContainer(fileURL);
+                } else if (file.type.startsWith('video/')) {
+                    addVideoToContainer(fileURL);
+                }
+            }
+        });
+
+        // 이미지 추가 함수
+        function addImageToContainer(imageURL) {
+            const mediaContainer = document.getElementById('mediaContainer');
+            const mediaBox = document.createElement('div');
+            mediaBox.classList.add('media-box');
+            
+            // 이미지 엘리먼트 생성
+            const imgElement = document.createElement('img');
+            imgElement.src = imageURL;
+
+            // 드래그 기능을 추가
+            makeDraggable(mediaBox);
+
+            // 제거 버튼
+            const removeButton = document.createElement('button');
+            removeButton.classList.add('remove-btn');
+            removeButton.textContent = 'X';
+            removeButton.addEventListener('click', function() {
+                mediaBox.remove();
+            });
+
+            // 편집 버튼
+            const editButton = document.createElement('button');
+            editButton.classList.add('edit-btn');
+            editButton.textContent = '편집';
+            editButton.addEventListener('click', function() {
+                alert('편집 기능은 아직 구현되지 않았습니다.');
+            });
+
+            // 이미지 박스에 추가
+            mediaBox.appendChild(imgElement);
+            mediaBox.appendChild(removeButton);
+            mediaBox.appendChild(editButton);
+
+            // 미디어 컨테이너에 추가
+            mediaContainer.appendChild(mediaBox);
+        }
+
+        // 비디오 추가 함수
+        function addVideoToContainer(videoURL) {
+            const mediaContainer = document.getElementById('mediaContainer');
+            const mediaBox = document.createElement('div');
+            mediaBox.classList.add('media-box');
+
+            // 비디오 엘리먼트 생성
+            const videoElement = document.createElement('video');
+            videoElement.src = videoURL;
+            videoElement.controls = true;
+
+            // 드래그 기능을 추가
+            makeDraggable(mediaBox);
+
+            // 제거 버튼
+            const removeButton = document.createElement('button');
+            removeButton.classList.add('remove-btn');
+            removeButton.textContent = 'X';
+            removeButton.addEventListener('click', function() {
+                mediaBox.remove();
+            });
+
+            // 편집 버튼
+            const editButton = document.createElement('button');
+            editButton.classList.add('edit-btn');
+            editButton.textContent = '편집';
+            editButton.addEventListener('click', function() {
+                alert('편집 기능은 아직 구현되지 않았습니다.');
+            });
+
+            // 비디오 박스에 추가
+            mediaBox.appendChild(videoElement);
+            mediaBox.appendChild(removeButton);
+            mediaBox.appendChild(editButton);
+
+            // 미디어 컨테이너에 추가
+            mediaContainer.appendChild(mediaBox);
+        }
+
+        // 드래그 기능 추가 함수
+        function makeDraggable(mediaBox) {
+            mediaBox.addEventListener('mousedown', function(e) {
+                isDragging = true;
+                offsetX = e.clientX - mediaBox.offsetLeft;
+                offsetY = e.clientY - mediaBox.offsetTop;
+                mediaBox.style.cursor = 'grabbing';
+            });
+
+            mediaBox.addEventListener('mousemove', function(e) {
+                if (isDragging) {
+                    mediaBox.style.left = `${e.clientX - offsetX}px`;
+                    mediaBox.style.top = `${e.clientY - offsetY}px`;
+                }
+            });
+
+            mediaBox.addEventListener('mouseup', function() {
+                isDragging = false;
+                mediaBox.style.cursor = 'grab';
+            });
+
+            // 터치 이벤트 지원 (모바일 대응)
+            mediaBox.addEventListener('touchstart', function(e) {
+                isDragging = true;
+                offsetX = e.touches[0].clientX - mediaBox.offsetLeft;
+                offsetY = e.touches[0].clientY - mediaBox.offsetTop;
+                mediaBox.style.cursor = 'grabbing';
+            });
+
+            mediaBox.addEventListener('touchmove', function(e) {
+                if (isDragging) {
+                    mediaBox.style.left = `${e.touches[0].clientX - offsetX}px`;
+                    mediaBox.style.top = `${e.touches[0].clientY - offsetY}px`;
+                }
+            });
+
+            mediaBox.addEventListener('touchend', function() {
+                isDragging = false;
+                mediaBox.style.cursor = 'grab';
+            });
+        }
     </script>
 </body>
 
